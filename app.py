@@ -610,5 +610,5 @@ def analyze():
     except Exception as e:
         return jsonify({'valid': False, 'tokens': tokens, 'error': f'Error: {str(e)}'})
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
