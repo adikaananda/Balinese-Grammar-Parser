@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balinese Grammar Parser - Kelompok 3 TBO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Balinese&display=swap" rel="stylesheet">
+    <style>
+        .font-balinese {
+            font-family: 'Noto Sans Balinese', sans-serif;
+        }
+        .hero-pattern {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+     .tree-node {
+  transition: all 0.3s ease;
+}
+
+.tree-node:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+}
+
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header Sticky -->
+    <header class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Balinese Grammar Parser</h1>
+                        <p class="text-xs text-gray-600">Sistem Analisis Linguistik</p>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center gap-2 bg-amber-50 px-4 py-2 rounded-lg border border-amber-200">
+                    <svg class="w-4 h-4 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    <span class="text-sm font-semibold text-amber-900">Kelompok 3 TBO</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero-pattern min-h-[75vh] relative">
+        <div class="max-w-7xl mx-auto px-6 pt-16 pb-20">
+            <!-- Om Swastyastu -->
+            <div class="text-center mb-16">
+                <div class="text-7xl md:text-8xl mb-6 text-amber-400 font-balinese leading-relaxed">
+                    ᬒᬁ ᬲ᭄ᬯᬲ᭄ᬢᬶᬳᬲ᭄ᬢᬸ
+                </div>
+                <p class="text-2xl md:text-3xl text-white font-light tracking-wider pt-8">Om Swastyastu</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto"></div>
+            </div>
+
+            <!-- Main Title -->
+            <div class="max-w-4xl mx-auto text-center mb-2">
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                    Analisis Struktur Kalimat<br />Bahasa Bali
+                </h2>
+                <p class="text-lg md:text-xl text-gray-200 leading-relaxed max-w-3xl mx-auto">
+                    Parser yang menganalisis struktur kalimat Bahasa Bali menggunakan metodologi Context-Free Grammar (CFG) dan Chomsky Normal Form (CNF). Parsing, pahami, dan eksplorasi pola linguistik Bahasa Bali.
+                </p>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="flex justify-center mb-12">
+                <div class="inline-flex bg-black/40 backdrop-blur-xl rounded-xl p-1.5 border border-white/20">
+                    <button onclick="switchTab('cfg')" id="btn-cfg" class="tab-btn px-8 py-3 text-sm font-semibold rounded-lg transition-all duration-200 flex items-center gap-2 bg-amber-600 text-white shadow-lg">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                        <span>Mode CFG</span>
+                    </button>
+                    <button onclick="switchTab('cnf')" id="btn-cnf" class="tab-btn px-8 py-3 text-sm font-semibold rounded-lg transition-all duration-200 flex items-center gap-2 text-gray-300 hover:text-white hover:bg-white/10">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <span>Mode CNF</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-6 py-12 mt-8 relative z-20">
+        <div class="space-y-6">
+            <!-- Input Section -->
+            <div class="bg-white rounded-xl p-6 shadow-xl border border-gray-200">
+                <div class="flex items-center gap-3 mb-5">
+                    <div class="w-10 h-10 bg-amber-600 rounded-lg flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-lg font-bold text-gray-900">Masukkan Kalimat Bahasa Bali</h2>
+                </div>
+                
+                <textarea id="inputSentence" placeholder="Contoh: Wayan nelayan ring segara" class="w-full h-36 px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-amber-600 focus:ring-2 focus:ring-amber-600/20 transition-all resize-none font-mono"></textarea>
+                
+                <button onclick="analyzeSentence()" class="mt-4 w-full bg-amber-600 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:bg-amber-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+                    Analisis Kalimat
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <main class="w-fit mx-auto px-6 py-12 mt-8 relative z-20">
+        <div class="space-y-6">
+            <!-- Result Section -->
+            <div id="resultSection" class="hidden space-y-4">
+                <div class="bg-white rounded-xl p-6 shadow-xl border border-green-200 max-w-5xl">
+                    <div class="flex items-start gap-3 mb-5">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg id="resultIcon" class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-green-900 mb-1 text-base" id="resultTitle">Analisis Selesai</h3>
+                            <p class="text-sm text-green-700" id="resultMessage"></p>
+                            <p class="text-xs text-green-600 mt-1" id="resultStructure"></p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                        <h4 class="text-xs font-bold text-gray-700 mb-3 uppercase tracking-wide">Kata-kata yang dianalisis</h4>
+                        <div id="tokenList" class="flex flex-wrap gap-2"></div>
+                    </div>
+                </div>
+                
+                <!-- Parse Tree Section -->
+                <div id="parseTreeSection" class="bg-white rounded-xl p-6 shadow-xl border border-gray-200">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-base">Struktur Kalimat (Parse Tree)</h3>
+                            <p class="text-xs text-gray-600 mt-0.5">Diagram pohon menunjukkan bagaimana kalimat diurai secara hierarki</p>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-50 to-blue-50 rounded-lg p-6 border border-purple-200 overflow-x-auto">
+                        <div id="treeVisualization"></div>
+                    </div>
+                    
+                    <!-- Legend -->
+                    <div class="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <h4 class="text-xs font-bold text-gray-700 mb-3 uppercase tracking-wide">Penjelasan Warna</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 bg-purple-600 rounded"></div>
+                                <span class="text-gray-700">Kalimat (S)</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 bg-blue-500 rounded"></div>
+                                <span class="text-gray-700">Frase</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 bg-green-500 rounded"></div>
+                                <span class="text-gray-700">Kategori Kata</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 bg-amber-500 rounded"></div>
+                                <span class="text-gray-700">Kata</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-amber-600 mt-16">
+        <div class="max-w-7xl mx-auto px-6 py-10">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Balinese Grammar Parser</h3>
+                            <p class="text-sm text-gray-400">Kelompok 3 TBO</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-400 leading-relaxed max-w-md">
+                        Sistem analisis linguistik untuk struktur Bahasa Bali menggunakan metodologi Context-Free Grammar dan Chomsky Normal Form.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-bold text-white mb-3 uppercase tracking-wide">Info Mata Kuliah</h4>
+                    <div class="space-y-2 text-sm text-gray-400">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                            <span>Teori Bahasa dan Otomata</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <span>Tahun Akademik 2025</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                            <span>Kelompok 3</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pt-6 border-t border-gray-800">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                    <p class="text-xs text-gray-500">© 2025 Kelompok 3 TBO. Hak Cipta Dilindungi.</p>
+                    <p class="text-xs text-gray-500">Dibuat dengan Flask & Python · Didukung oleh CFG & CNF</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

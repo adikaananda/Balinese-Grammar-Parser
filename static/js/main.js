@@ -1,0 +1,270 @@
+let currentTab = 'cfg';
+
+function switchTab(tab) {
+    currentTab = tab;
+    const cfgBtn = document.getElementById('btn-cfg');
+    const cnfBtn = document.getElementById('btn-cnf');
+
+    if (tab === 'cfg') {
+        cfgBtn.className = 'tab-btn px-8 py-3 text-sm font-semibold rounded-lg transition-all duration-200 flex items-center gap-2 bg-amber-600 text-white shadow-lg';
+        cnfBtn.className = 'tab-btn px-8 py-3 text-sm font-semibold rounded-lg transition-all duration-200 flex items-center gap-2 text-gray-300 hover:text-white hover:bg-white/10';
+    } else {
+        cnfBtn.className = 'tab-btn px-8 py-3 text-sm font-semibold rounded-lg transition-all duration-200 flex items-center gap-2 bg-amber-600 text-white shadow-lg';
+        cfgBtn.className = 'tab-btn px-8 py-3 text-sm font-semibold rounded-lg transition-all duration-200 flex items-center gap-2 text-gray-300 hover:text-white hover:bg-white/10';
+    }
+}
+
+function calculateTreeDimensions(node, depth = 0) {
+    if (!node || !node.children || node.children.length === 0) {
+        return { width: 120, height: 60, leaves: 1 };
+    }
+    
+    let totalWidth = 0;
+    let maxHeight = 60;
+    let totalLeaves = 0;
+    
+    for (const child of node.children) {
+        const childDim = calculateTreeDimensions(child, depth + 1);
+        totalWidth += childDim.width;
+        maxHeight = Math.max(maxHeight, childDim.height + 80);
+        totalLeaves += childDim.leaves;
+    }
+    
+    return { 
+        width: Math.max(totalWidth, 120), 
+        height: maxHeight,
+        leaves: totalLeaves
+    };
+}
+
+function renderTreeNode(node, x, y, width, svg, depth = 0) {
+    if (!node) return;
+    
+    const colors = {
+        0: { bg: '#7C3AED', text: '#FFFFFF' }, // purple
+        1: { bg: '#3B82F6', text: '#FFFFFF' }, // blue
+        2: { bg: '#10B981', text: '#FFFFFF' }, // green
+        3: { bg: '#F59E0B', text: '#FFFFFF' }  // amber
+    };
+    
+    const color = colors[Math.min(depth, 3)];
+    const nodeWidth = 100;
+    const nodeHeight = 40;
+    const nodeX = x + (width - nodeWidth) / 2;
+    
+    // Draw node
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttribute('class', 'tree-node');
+    
+    const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    rect.setAttribute('x', nodeX);
+    rect.setAttribute('y', y);
+    rect.setAttribute('width', nodeWidth);
+    rect.setAttribute('height', nodeHeight);
+    rect.setAttribute('rx', '8');
+    rect.setAttribute('fill', color.bg);
+    rect.setAttribute('class', 'drop-shadow-md');
+    
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('x', nodeX + nodeWidth / 2);
+    text.setAttribute('y', y + nodeHeight / 2 + 5);
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('fill', color.text);
+    text.setAttribute('font-weight', 'bold');
+    text.setAttribute('font-size', '14');
+    text.setAttribute('font-family', 'monospace');
+    text.textContent = node.label;
+    
+    g.appendChild(rect);
+    g.appendChild(text);
+    svg.appendChild(g);
+    
+    // Draw children
+    if (node.children && node.children.length > 0) {
+        const childY = y + 80;
+        const childrenWidth = width / node.children.length;
+        
+        node.children.forEach((child, i) => {
+            const childX = x + i * childrenWidth;
+            const childNodeX = childX + (childrenWidth - nodeWidth) / 2 + nodeWidth / 2;
+            
+            // Draw line from parent to child
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', nodeX + nodeWidth / 2);
+            line.setAttribute('y1', y + nodeHeight);
+            line.setAttribute('x2', childNodeX);
+            line.setAttribute('y2', childY);
+            line.setAttribute('stroke', '#CBD5E1');
+            line.setAttribute('stroke-width', '2');
+            svg.appendChild(line);
+            
+            renderTreeNode(child, childX, childY, childrenWidth, svg, depth + 1);
+        });
+    }
+}
+
+function renderTree(node) {
+    if (!node) return '';
+    
+    const dimensions = calculateTreeDimensions(node);
+    const svgWidth = Math.max(dimensions.width * 1.5, 800);
+    const svgHeight = dimensions.height + 100;
+    
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', svgWidth);
+    svg.setAttribute('height', svgHeight);
+    svg.setAttribute('class', 'mx-auto');
+    
+    renderTreeNode(node, 0, 20, svgWidth, svg, 0);
+    
+    return svg.outerHTML;
+}
+
+async function analyzeSentence() {
+    const sentence = document.getElementById('inputSentence').value.trim();
+    
+    if (!sentence) {
+        alert('Silakan masukkan kalimat untuk dianalisis.');
+        return;
+    }
+
+    try {
+        const response = await fetch('/analyze', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                sentence: sentence,
+                mode: currentTab
+            })
+        });
+
+        const data = await response.json();
+        
+        const resultSection = document.getElementById('resultSection');
+        const resultTitle = document.getElementById('resultTitle');
+        const resultMessage = document.getElementById('resultMessage');
+        const resultStructure = document.getElementById('resultStructure');
+        const tokenList = document.getElementById('tokenList');
+        const resultIcon = document.getElementById('resultIcon');
+        const treeVisualization = document.getElementById('treeVisualization');
+        const parseTreeSection = document.getElementById('parseTreeSection');
+
+        const resultContainer = resultSection.querySelector('.bg-white');
+        
+        if (data.valid) {
+            resultSection.classList.remove('hidden');
+            resultContainer.className = 'bg-white rounded-xl p-6 shadow-xl border border-green-200 max-w-5xl mx-auto';
+            
+            const iconContainer = resultContainer.querySelector('.w-10');
+            iconContainer.className = 'w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0';
+            
+            resultTitle.className = 'font-bold text-green-900 mb-1 text-base';
+            resultTitle.textContent = 'Kalimat Valid';
+            resultMessage.className = 'text-sm text-green-700';
+            resultMessage.textContent = `Berhasil mem-parse ${data.tokens.length} token menggunakan ${currentTab.toUpperCase()}`;
+            resultStructure.className = 'text-xs text-green-600 mt-1';
+            resultStructure.textContent = `Struktur: ${data.structure}`;
+            
+            resultIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
+            resultIcon.className = 'w-5 h-5 text-green-600';
+            
+            if (data.parse_tree) {
+                parseTreeSection.classList.remove('hidden');
+                treeVisualization.innerHTML = renderTree(data.parse_tree);
+            }
+        } else {
+            resultSection.classList.remove('hidden');
+            resultContainer.className = 'bg-white rounded-xl p-6 shadow-xl border border-red-200';
+            
+            const iconContainer = resultContainer.querySelector('.w-10');
+            iconContainer.className = 'w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0';
+            
+            resultTitle.className = 'font-bold text-red-900 mb-1 text-base';
+            resultTitle.textContent = 'Kalimat Tidak Valid';
+            resultMessage.className = 'text-sm text-red-700';
+            resultMessage.textContent = data.error || 'Kalimat tidak sesuai dengan grammar yang didefinisikan';
+            resultStructure.className = 'text-xs text-red-600 mt-1';
+            resultStructure.textContent = `Mode: ${currentTab.toUpperCase()}`;
+            
+            resultIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>';
+            resultIcon.className = 'w-5 h-5 text-red-600';
+            
+            parseTreeSection.classList.add('hidden');
+        }
+
+        // Display tokens
+        tokenList.innerHTML = '';
+        data.tokens.forEach(token => {
+            const span = document.createElement('span');
+            span.className = data.valid ? 
+                'bg-amber-100 text-gray-900 px-3 py-1.5 rounded-md text-xs font-medium border border-amber-300 hover:bg-amber-200 transition-colors' :
+                'bg-red-100 text-gray-900 px-3 py-1.5 rounded-md text-xs font-medium border border-red-300 hover:bg-red-200 transition-colors';
+            span.textContent = token;
+            tokenList.appendChild(span);
+        });
+
+        // Display token analysis
+        if (data.token_analysis) {
+            const analysisDiv = document.createElement('div');
+            analysisDiv.className = 'mt-4 bg-gray-50 rounded-lg p-4 border border-gray-200';
+            analysisDiv.innerHTML = '<h4 class="text-xs font-bold text-gray-700 mb-3 uppercase tracking-wide">Analisis Kategori Kata</h4>';
+            
+            const analysisTable = document.createElement('div');
+            analysisTable.className = 'space-y-2';
+            
+            data.token_analysis.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'flex items-start gap-3 text-sm';
+                
+                const tokenSpan = document.createElement('span');
+                tokenSpan.className = 'font-mono font-bold min-w-[100px]';
+                tokenSpan.textContent = item.token;
+                
+                const categorySpan = document.createElement('span');
+                if (item.found) {
+                    categorySpan.className = 'text-gray-700';
+                    categorySpan.textContent = '→ ' + item.categories.join(', ');
+                } else {
+                    categorySpan.className = 'text-red-600 font-semibold';
+                    categorySpan.textContent = '→ TIDAK DIKENALI';
+                }
+                
+                row.appendChild(tokenSpan);
+                row.appendChild(categorySpan);
+                analysisTable.appendChild(row);
+            });
+            
+            analysisDiv.appendChild(analysisTable);
+            tokenList.parentElement.parentElement.appendChild(analysisDiv);
+        }
+
+        // Display error details
+        if (!data.valid && data.error_details) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'mt-4 bg-red-50 rounded-lg p-4 border border-red-200';
+            errorDiv.innerHTML = '<h4 class="text-xs font-bold text-red-700 mb-3 uppercase tracking-wide">Detail Kesalahan</h4>';
+            
+            const errorList = document.createElement('ul');
+            errorList.className = 'space-y-2 text-sm text-red-700';
+            
+            data.error_details.forEach(detail => {
+                const li = document.createElement('li');
+                li.className = 'flex items-start gap-2';
+                li.innerHTML = `<span class="text-red-500 font-bold">•</span><span>${detail}</span>`;
+                errorList.appendChild(li);
+            });
+            
+            errorDiv.appendChild(errorList);
+            tokenList.parentElement.parentElement.appendChild(errorDiv);
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan saat menganalisis kalimat.');
+    }
+}
+
+// Initialize
+switchTab('cfg');
