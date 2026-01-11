@@ -487,15 +487,11 @@ class CNFParser:
         # ========== KOMPONEN P, S, PEL (Unary Rules) ==========
         # Semua kemungkinan NP untuk Predikat
         self.grammar['P'] = [
-            # Simple
             ['Noun'], ['N_D'],
             ['PropNoun'], ['PN_D'],
             ['Pronoun'], ['PR_D'],
-            # Compound 2
             ['NN'], ['NN_D'],
-            # Compound 3
             ['NNN'], ['NNN_D'],
-            # Compound 4
             ['NNNN'], ['NNNN_D']
         ]
         

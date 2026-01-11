@@ -337,8 +337,6 @@ window.addEventListener('resize', () => {
             // Re-render tree if it exists
             const resultSection = document.getElementById('resultSection');
             if (!resultSection.classList.contains('hidden')) {
-                // Tree is visible, consider re-rendering for better fit
-                // You can implement this if needed
             }
         }
     }, 250);
