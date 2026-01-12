@@ -60,49 +60,58 @@ CFG_RULES = [
 
 # ===== CNF RULES (untuk display) =====
 def generate_cnf_rules_display():
-    """Generate CNF rules untuk display"""
+    """Generate CNF rules untuk display - sync dengan CNF Parser"""
     rules = [
+        # Start Symbol
         {'no': 1, 'kategori': 'Start Symbol', 'nonTerminal': 'S₀', 'rule': 'S₀ → K'},
-        {'no': 2, 'kategori': 'Struktur Kalimat', 'nonTerminal': 'K', 'rule': 'K → PS_P1'},
-        {'no': 3, 'kategori': 'Struktur Kalimat', 'nonTerminal': 'K', 'rule': 'K → PS_P2'},
-        {'no': 4, 'kategori': 'Struktur Kalimat', 'nonTerminal': 'K', 'rule': 'K → PS_P3'},
-        {'no': 5, 'kategori': 'Struktur Kalimat', 'nonTerminal': 'K', 'rule': 'K → PS_P4'},
-        {'no': 6, 'kategori': 'Struktur Kalimat (Binary)', 'nonTerminal': 'PS_P1', 'rule': 'PS_P1 → P S'},
-        {'no': 7, 'kategori': 'Struktur Kalimat (Binary)', 'nonTerminal': 'PS_P2', 'rule': 'PS_P2 → P_Pel1 S'},
-        {'no': 8, 'kategori': 'Struktur Kalimat (Binary)', 'nonTerminal': 'P_Pel1', 'rule': 'P_Pel1 → P Pel'},
-        {'no': 9, 'kategori': 'Struktur Kalimat (Binary)', 'nonTerminal': 'PS_P3', 'rule': 'PS_P3 → P S_Ket1'},
-        {'no': 10, 'kategori': 'Struktur Kalimat (Binary)', 'nonTerminal': 'S_Ket1', 'rule': 'S_Ket1 → S Ket'},
-        {'no': 11, 'kategori': 'Struktur Kalimat (Binary)', 'nonTerminal': 'PS_P4', 'rule': 'PS_P4 → P_Pel1 S_Ket1'},
-        {'no': 12, 'kategori': 'Komponen Dasar', 'nonTerminal': 'P', 'rule': 'P → N_D2 | N_T2 | PN_D2 | PN_T2 | PR_D2 | PR_T2'},
-        {'no': 13, 'kategori': 'Komponen Dasar', 'nonTerminal': 'S', 'rule': 'S → N_D1 | N_T1 | PN_D1 | PN_T1 | PR_D1 | PR_T1'},
-        {'no': 14, 'kategori': 'Komponen Dasar', 'nonTerminal': 'Pel', 'rule': 'Pel → N_D3 | N_T3 | PN_D3 | PN_T3 | PR_D3 | PR_T3'},
-        {'no': 15, 'kategori': 'Komponen Dasar', 'nonTerminal': 'Ket', 'rule': 'Ket → Prep_NP1'},
-        {'no': 16, 'kategori': 'Frasa Nomina', 'nonTerminal': 'N_D1', 'rule': 'N_D1 → Noun Det'},
-        {'no': 17, 'kategori': 'Frasa Nomina', 'nonTerminal': 'N_T1', 'rule': 'N_T1 → Noun'},
-        {'no': 18, 'kategori': 'Frasa Nomina', 'nonTerminal': 'PN_D1', 'rule': 'PN_D1 → PropNoun Det'},
-        {'no': 19, 'kategori': 'Noun Phrase', 'nonTerminal': 'NP', 'rule': 'NP → Noun Noun Det'},
-        {'no': 20, 'kategori': 'Noun Phrase', 'nonTerminal': 'NP', 'rule': 'NP → Noun Noun Noun'},
-        {'no': 21, 'kategori': 'Noun Phrase', 'nonTerminal': 'NP', 'rule': 'NP → Noun Noun Noun Det'},
-        {'no': 22, 'kategori': 'Terminal (Noun)', 'nonTerminal': 'Noun', 'rule': "Noun → 'guru' | 'pedagang' | ... (lihat vocabulary)"},
-        {'no': 23, 'kategori': 'Frasa Nomina', 'nonTerminal': 'N_T2', 'rule': 'N_T2 → Noun'},
-        {'no': 24, 'kategori': 'Frasa Nomina', 'nonTerminal': 'PN_D2', 'rule': 'PN_D2 → PropNoun Det'},
-        {'no': 25, 'kategori': 'Frasa Nomina', 'nonTerminal': 'PN_T2', 'rule': 'PN_T2 → PropNoun'},
-        {'no': 26, 'kategori': 'Frasa Nomina', 'nonTerminal': 'PR_D2', 'rule': 'PR_D2 → Pronoun Det'},
-        {'no': 27, 'kategori': 'Frasa Nomina', 'nonTerminal': 'PR_T2', 'rule': 'PR_T2 → Pronoun'},
-        {'no': 28, 'kategori': 'Frasa Nomina', 'nonTerminal': 'N_D3', 'rule': 'N_D3 → Noun Det'},
-        {'no': 29, 'kategori': 'Frasa Nomina', 'nonTerminal': 'N_T3', 'rule': 'N_T3 → Noun'},
-        {'no': 30, 'kategori': 'Frasa Nomina', 'nonTerminal': 'PN_D3', 'rule': 'PN_D3 → PropNoun Det'},
-        {'no': 31, 'kategori': 'Frasa Nomina', 'nonTerminal': 'PN_T3', 'rule': 'PN_T3 → PropNoun'},
-        {'no': 32, 'kategori': 'Frasa Nomina', 'nonTerminal': 'PR_D3', 'rule': 'PR_D3 → Pronoun Det'},
-        {'no': 33, 'kategori': 'Frasa Nomina', 'nonTerminal': 'PR_T3', 'rule': 'PR_T3 → Pronoun'},
-        {'no': 34, 'kategori': 'Frasa Preposisional', 'nonTerminal': 'Prep_NP1', 'rule': 'Prep_NP1 → Prep NP_PP1'},
-        {'no': 35, 'kategori': 'Frasa Preposisional', 'nonTerminal': 'NP_PP1', 'rule': 'NP_PP1 → Noun'},
-        {'no': 36, 'kategori': 'Frasa Preposisional', 'nonTerminal': 'NP_PP1', 'rule': 'NP_PP1 → PropNoun'},
-        {'no': 37, 'kategori': 'Terminal', 'nonTerminal': 'Noun', 'rule': 'Noun → guru | pedagang | ... (lihat vocabulary)'},
-        {'no': 38, 'kategori': 'Terminal', 'nonTerminal': 'PropNoun', 'rule': 'PropNoun → wayan | komang | ...'},
-        {'no': 39, 'kategori': 'Terminal', 'nonTerminal': 'Pronoun', 'rule': 'Pronoun → tiang | ia'},
-        {'no': 40, 'kategori': 'Terminal', 'nonTerminal': 'Det', 'rule': 'Det → niki | ento | ...'},
-        {'no': 41, 'kategori': 'Terminal', 'nonTerminal': 'Prep', 'rule': 'Prep → ring'},
+        
+        # Struktur Kalimat (Binary)
+        {'no': 2, 'kategori': 'Struktur Kalimat', 'nonTerminal': 'K', 'rule': 'K → P S'},
+        {'no': 3, 'kategori': 'Struktur Kalimat', 'nonTerminal': 'K', 'rule': 'K → P_Pel S'},
+        {'no': 4, 'kategori': 'Struktur Kalimat', 'nonTerminal': 'K', 'rule': 'K → P S_Ket'},
+        {'no': 5, 'kategori': 'Struktur Kalimat', 'nonTerminal': 'K', 'rule': 'K → P_Pel S_Ket'},
+        
+        # Helper Binary Decomposition
+        {'no': 6, 'kategori': 'Binary Decomposition', 'nonTerminal': 'P_Pel', 'rule': 'P_Pel → P Pel'},
+        {'no': 7, 'kategori': 'Binary Decomposition', 'nonTerminal': 'S_Ket', 'rule': 'S_Ket → S Ket'},
+        
+        # Komponen Kalimat (Unary ke NP)
+        {'no': 8, 'kategori': 'Komponen Predikat', 'nonTerminal': 'P', 'rule': 'P → NP'},
+        {'no': 9, 'kategori': 'Komponen Subjek', 'nonTerminal': 'S', 'rule': 'S → NP'},
+        {'no': 10, 'kategori': 'Komponen Pelengkap', 'nonTerminal': 'Pel', 'rule': 'Pel → NP'},
+        {'no': 11, 'kategori': 'Komponen Keterangan', 'nonTerminal': 'Ket', 'rule': 'Ket → PP'},
+        
+        # Noun Phrase Binary Rules
+        {'no': 12, 'kategori': 'Frasa Nomina Binary', 'nonTerminal': 'Noun_Det', 'rule': 'Noun_Det → Noun Det'},
+        {'no': 13, 'kategori': 'Frasa Nomina Binary', 'nonTerminal': 'PropNoun_Det', 'rule': 'PropNoun_Det → PropNoun Det'},
+        {'no': 14, 'kategori': 'Frasa Nomina Binary', 'nonTerminal': 'Pronoun_Det', 'rule': 'Pronoun_Det → Pronoun Det'},
+        {'no': 15, 'kategori': 'Frasa Nomina Binary', 'nonTerminal': 'Noun_Noun', 'rule': 'Noun_Noun → Noun Noun'},
+        {'no': 16, 'kategori': 'Frasa Nomina Binary', 'nonTerminal': 'Noun_Noun_Det', 'rule': 'Noun_Noun_Det → Noun_Noun Det'},
+        {'no': 17, 'kategori': 'Frasa Nomina Binary', 'nonTerminal': 'Noun_Noun_Noun', 'rule': 'Noun_Noun_Noun → Noun_Noun Noun'},
+        {'no': 18, 'kategori': 'Frasa Nomina Binary', 'nonTerminal': 'Noun_Noun_Noun_Det', 'rule': 'Noun_Noun_Noun_Det → Noun_Noun_Noun Det'},
+        
+        # NP Unary Rules 
+        {'no': 19, 'kategori': 'Noun Phrase', 'nonTerminal': 'NP', 'rule': 'NP → Noun'},
+        {'no': 20, 'kategori': 'Noun Phrase', 'nonTerminal': 'NP', 'rule': 'NP → Noun_Det'},
+        {'no': 21, 'kategori': 'Noun Phrase', 'nonTerminal': 'NP', 'rule': 'NP → PropNoun'},
+        {'no': 22, 'kategori': 'Noun Phrase', 'nonTerminal': 'NP', 'rule': 'NP → PropNoun_Det'},
+        {'no': 23, 'kategori': 'Noun Phrase', 'nonTerminal': 'NP', 'rule': 'NP → Pronoun'},
+        {'no': 24, 'kategori': 'Noun Phrase', 'nonTerminal': 'NP', 'rule': 'NP → Pronoun_Det'},
+        {'no': 25, 'kategori': 'Noun Phrase', 'nonTerminal': 'NP', 'rule': 'NP → Noun_Noun'},
+        {'no': 26, 'kategori': 'Noun Phrase', 'nonTerminal': 'NP', 'rule': 'NP → Noun_Noun_Det'},
+        {'no': 27, 'kategori': 'Noun Phrase', 'nonTerminal': 'NP', 'rule': 'NP → Noun_Noun_Noun'},
+        {'no': 28, 'kategori': 'Noun Phrase', 'nonTerminal': 'NP', 'rule': 'NP → Noun_Noun_Noun_Det'},
+        
+        # Prepositional Phrase
+        {'no': 29, 'kategori': 'Prepositional Phrase', 'nonTerminal': 'PP', 'rule': 'PP → Prep NP'},
+        {'no': 30, 'kategori': 'Prepositional Phrase', 'nonTerminal': 'PP', 'rule': 'PP → Prep Noun'},
+        
+        # Terminals
+        {'no': 31, 'kategori': 'Terminal', 'nonTerminal': 'Noun', 'rule': "Noun → guru | pedagang | ... (lihat vocabulary)"},
+        {'no': 32, 'kategori': 'Terminal', 'nonTerminal': 'PropNoun', 'rule': "PropNoun → wayan | komang | ..."},
+        {'no': 33, 'kategori': 'Terminal', 'nonTerminal': 'Pronoun', 'rule': "Pronoun → tiang | ia"},
+        {'no': 34, 'kategori': 'Terminal', 'nonTerminal': 'Det', 'rule': "Det → niki | ento | ..."},
+        {'no': 35, 'kategori': 'Terminal', 'nonTerminal': 'Prep', 'rule': "Prep → ring"},
     ]
     return rules
 
@@ -438,221 +447,158 @@ class CNFParser:
         self._build_grammar()
     
     def _build_grammar(self):
-        """Build CNF grammar - semua rules harus binary atau unary"""
+        """Build CNF grammar"""
         
-        # ========== START SYMBOL ==========
+        # Start Symbol
         self.grammar['S₀'] = [['K']]
         
-        # ========== STRUKTUR KALIMAT ==========
-        # K → P S | P Pel S | P S Ket | P Pel S Ket
-        # Dipecah jadi binary:
+        # Struktur Kalimat (Binary)
         self.grammar['K'] = [
-            ['PS_P1'],    # P S
-            ['PS_P2'],    # P Pel S
-            ['PS_P3'],    # P S Ket
-            ['PS_P4']     # P Pel S Ket
+            ['P', 'S'],
+            ['P_Pel', 'S'],
+            ['P', 'S_Ket'],
+            ['P_Pel', 'S_Ket']
         ]
         
-        # Binary decomposition
-        self.grammar['PS_P1'] = [['P', 'S']]                    # P S
-        self.grammar['PS_P2'] = [['P_Pel1', 'S']]               # (P Pel) S
-        self.grammar['P_Pel1'] = [['P', 'Pel']]                 # P Pel
-        self.grammar['PS_P3'] = [['P', 'S_Ket1']]               # P (S Ket)
-        self.grammar['S_Ket1'] = [['S', 'Ket']]                 # S Ket
-        self.grammar['PS_P4'] = [['P_Pel1', 'S_Ket1']]          # (P Pel) (S Ket)
+        # Helper untuk struktur kompleks
+        self.grammar['P_Pel'] = [['P', 'Pel']]
+        self.grammar['S_Ket'] = [['S', 'Ket']]
         
-        # Noun + Det
-        self.grammar['N_D'] = [['Noun', 'Det']]
-        # PropNoun + Det
-        self.grammar['PN_D'] = [['PropNoun', 'Det']]
-        # Pronoun + Det
-        self.grammar['PR_D'] = [['Pronoun', 'Det']]
+        # Noun Phrase Binary Rules
+        self.grammar['Noun_Det'] = [['Noun', 'Det']]
+        self.grammar['PropNoun_Det'] = [['PropNoun', 'Det']]
+        self.grammar['Pronoun_Det'] = [['Pronoun', 'Det']]
+        self.grammar['Noun_Noun'] = [['Noun', 'Noun']]
+        self.grammar['Noun_Noun_Det'] = [['Noun_Noun', 'Det']]
+        self.grammar['Noun_Noun_Noun'] = [['Noun_Noun', 'Noun']]
+        self.grammar['Noun_Noun_Noun_Det'] = [['Noun_Noun_Noun', 'Det']]
+        self.grammar['Noun_Noun_Noun_Noun'] = [['Noun_Noun_Noun', 'Noun']]
+        self.grammar['Noun_Noun_Noun_Noun_Det'] = [['Noun_Noun_Noun_Noun', 'Det']]
         
-        # Noun Noun
-        self.grammar['NN'] = [['Noun', 'Noun']]
-        # Noun Noun Det → (Noun Noun) Det
-        self.grammar['NN_D'] = [['NN', 'Det']]
-        
-
-        # Noun Noun Noun → (Noun Noun) Noun
-        self.grammar['NNN'] = [['NN', 'Noun']]
-        # Noun Noun Noun Det → ((Noun Noun) Noun) Det
-        self.grammar['NNN_D'] = [['NNN', 'Det']]
-        
-        # Noun Noun Noun Noun → ((Noun Noun) Noun) Noun
-        self.grammar['NNNN'] = [['NNN', 'Noun']]
-        # Noun Noun Noun Noun Det → (((Noun Noun) Noun) Noun) Det
-        self.grammar['NNNN_D'] = [['NNNN', 'Det']]
-        
-        # ========== KOMPONEN P, S, PEL (Unary Rules) ==========
-        # Semua kemungkinan NP untuk Predikat
-        self.grammar['P'] = [
-            ['Noun'], ['N_D'],
-            ['PropNoun'], ['PN_D'],
-            ['Pronoun'], ['PR_D'],
-            ['NN'], ['NN_D'],
-            ['NNN'], ['NNN_D'],
-            ['NNNN'], ['NNNN_D']
-        ]
-        
-        # Semua kemungkinan NP untuk Subjek
-        self.grammar['S'] = [
-            ['Noun'], ['N_D'],
-            ['PropNoun'], ['PN_D'],
-            ['Pronoun'], ['PR_D'],
-            ['NN'], ['NN_D'],
-            ['NNN'], ['NNN_D'],
-            ['NNNN'], ['NNNN_D']
-        ]
-        
-        # Semua kemungkinan NP untuk Pelengkap
-        self.grammar['Pel'] = [
-            ['Noun'], ['N_D'],
-            ['PropNoun'], ['PN_D'],
-            ['Pronoun'], ['PR_D'],
-            ['NN'], ['NN_D'],
-            ['NNN'], ['NNN_D'],
-            ['NNNN'], ['NNNN_D']
-        ]
-        
-        # ========== PREPOSITIONAL PHRASE ==========
-        # Ket → PP → Prep NP
-        self.grammar['Ket'] = [['PP']]
-        self.grammar['PP'] = [['Prep', 'NP_Ket']]
-        
-        # NP untuk Keterangan (bisa Noun atau PropNoun saja)
-        self.grammar['NP_Ket'] = [
+        # NP (Noun Phrase) - sama seperti CFG
+        self.grammar['NP'] = [
             ['Noun'],
+            ['Noun_Det'],
             ['PropNoun'],
-            ['N_D'],
-            ['PN_D']
+            ['PropNoun_Det'],
+            ['Pronoun'],
+            ['Pronoun_Det'],
+            ['Noun_Noun'],
+            ['Noun_Noun_Det'],
+            ['Noun_Noun_Noun'],
+            ['Noun_Noun_Noun_Det'],
+            ['Noun_Noun_Noun_Noun'],
+            ['Noun_Noun_Noun_Noun_Det']
+        ]
+        
+        # Komponen Predikat - pakai NP (sama seperti CFG)
+        self.grammar['P'] = [['NP']]
+        
+        # Komponen Subjek - pakai NP (sama seperti CFG)
+        self.grammar['S'] = [['NP']]
+        
+        # Komponen Pelengkap - pakai NP (sama seperti CFG)
+        self.grammar['Pel'] = [['NP']]
+        
+        # Prepositional Phrase - sama seperti CFG
+        self.grammar['Ket'] = [['PP']]
+        self.grammar['PP'] = [
+            ['Prep', 'NP'],
+            ['Prep', 'Noun']
         ]
     
     def parse(self, tokens):
-        """CYK Algorithm untuk CNF"""
+        """CYK Algorithm"""
         n = len(tokens)
-        
-        # Chart untuk menyimpan non-terminals
         chart = [[set() for _ in range(n + 1)] for _ in range(n + 1)]
-        # Backpointer untuk tree reconstruction
         backpointer = [[{} for _ in range(n + 1)] for _ in range(n + 1)]
         
-       
+        # Initialize terminals
         for i, token in enumerate(tokens):
             token_lower = token.lower()
-            
-            # Cari di terminal vocabulary
             for non_terminal, terms in self.terminals.items():
                 if token_lower in terms:
                     chart[i][i + 1].add(non_terminal)
                     backpointer[i][i + 1][non_terminal] = ('terminal', token)
         
-      
+        # Apply unary closure
         for i in range(n):
             self._apply_unary_closure(chart, backpointer, i, i + 1)
         
-       
-        for length in range(2, n + 1):  # Panjang span
-            for i in range(n - length + 1):  # Start position
-                j = i + length  # End position
+        # CYK bottom-up
+        for length in range(2, n + 1):
+            for i in range(n - length + 1):
+                j = i + length
                 
-                # Coba semua split point
                 for k in range(i + 1, j):
-                    # Coba semua binary rules: A → B C
                     for lhs, productions in self.grammar.items():
                         for prod in productions:
-                            if len(prod) == 2:  # Binary rule
+                            if len(prod) == 2:
                                 B, C = prod
-                                # Jika B ada di chart[i][k] dan C ada di chart[k][j]
                                 if B in chart[i][k] and C in chart[k][j]:
                                     if lhs not in chart[i][j]:
                                         chart[i][j].add(lhs)
                                         backpointer[i][j][lhs] = ('binary', k, B, C)
                 
-                # Apply unary closure setelah semua binary rules
                 self._apply_unary_closure(chart, backpointer, i, j)
         
         token_analysis, unknown_tokens = analyze_tokens_full(tokens)
         
         if 'S₀' in chart[0][n]:
-            # Berhasil di-parse
             tree = self._build_tree(tokens, chart, backpointer, 0, n, 'S₀')
             return True, tree, token_analysis, None
         else:
-            # Gagal di-parse
             error_details = []
-            
             if unknown_tokens:
                 error_details.append(f"Kata tidak dikenali: {', '.join(unknown_tokens)}")
-            
             if not unknown_tokens and len(chart[0][n]) > 0:
-                error_details.append(f"Struktur tidak sesuai grammar P-S. Simbol yang berhasil dibentuk: {', '.join(chart[0][n])}")
+                error_details.append(f"Struktur tidak sesuai grammar. Simbol: {', '.join(chart[0][n])}")
             elif not unknown_tokens:
-                error_details.append("Tidak ada struktur valid yang dapat dibentuk dari kalimat ini")
+                error_details.append("Tidak ada struktur valid")
             
             return False, None, token_analysis, error_details
     
     def _apply_unary_closure(self, chart, backpointer, i, j):
-        """Apply unary rules sampai tidak ada perubahan"""
+        """Apply unary rules"""
         changed = True
         iterations = 0
-        max_iterations = 100  # Prevent infinite loop
         
-        while changed and iterations < max_iterations:
+        while changed and iterations < 50:
             changed = False
             iterations += 1
             original_size = len(chart[i][j])
             
-            # Coba semua unary rules: A → B
             for lhs, productions in self.grammar.items():
                 for prod in productions:
-                    if len(prod) == 1:  # Unary rule
+                    if len(prod) == 1:
                         B = prod[0]
-                        # Jika B ada di chart dan A belum ada
                         if B in chart[i][j] and lhs not in chart[i][j]:
                             chart[i][j].add(lhs)
                             backpointer[i][j][lhs] = ('unary', B)
             
-            # Cek apakah ada perubahan
             if len(chart[i][j]) > original_size:
                 changed = True
     
     def _build_tree(self, tokens, chart, backpointer, i, j, symbol):
-        """Reconstruct parse tree dari backpointers"""
-        
-        # Jika symbol tidak ada di backpointer, return leaf kosong
+        """Reconstruct parse tree"""
         if symbol not in backpointer[i][j]:
             return {'label': symbol, 'children': []}
         
         bp = backpointer[i][j][symbol]
         
         if bp[0] == 'terminal':
-            # Leaf node (terminal)
-            return {
-                'label': symbol,
-                'children': [{'label': bp[1], 'children': []}]
-            }
+            return {'label': symbol, 'children': [{'label': bp[1], 'children': []}]}
         
         elif bp[0] == 'unary':
-            # Unary rule: A → B
-            child_symbol = bp[1]
-            child = self._build_tree(tokens, chart, backpointer, i, j, child_symbol)
-            return {
-                'label': symbol,
-                'children': [child]
-            }
+            child = self._build_tree(tokens, chart, backpointer, i, j, bp[1])
+            return {'label': symbol, 'children': [child]}
         
         elif bp[0] == 'binary':
-            # Binary rule: A → B C
             k, B, C = bp[1], bp[2], bp[3]
             left = self._build_tree(tokens, chart, backpointer, i, k, B)
             right = self._build_tree(tokens, chart, backpointer, k, j, C)
-            return {
-                'label': symbol,
-                'children': [left, right]
-            }
+            return {'label': symbol, 'children': [left, right]}
         
-        # Fallback
         return {'label': symbol, 'children': []}
 
 # ===== ROUTES =====
