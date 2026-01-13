@@ -95,7 +95,7 @@
     </div>
 
     <!-- Main Content -->
-    <main class="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12 mt-4 sm:mt-8 relative z-20">
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 mt-4 sm:mt-8 relative z-20">
         <div class="space-y-6">
             <!-- Input Section -->
             <div class="bg-white rounded-xl p-4 sm:p-6 shadow-xl border border-gray-200">
@@ -108,7 +108,7 @@
                     <h2 class="text-base sm:text-lg font-bold text-gray-900">Masukkan Kalimat Bahasa Bali</h2>
                 </div>
                 
-                <textarea id="inputSentence" placeholder="Contoh: guru niki bapanne" class="w-full h-28 sm:h-36 px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-amber-600 focus:ring-2 focus:ring-amber-600/20 transition-all resize-none font-mono"></textarea>
+                <textarea id="inputSentence" placeholder="Contoh: guru bapanne niki " class="w-full h-28 sm:h-36 px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-amber-600 focus:ring-2 focus:ring-amber-600/20 transition-all resize-none font-mono"></textarea>
                 
                 <button onclick="analyzeSentence()" class="mt-4 w-full bg-amber-600 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg text-sm font-semibold hover:bg-amber-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
                     <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -120,8 +120,8 @@
         </div>
     </main>
 
-    <main class="w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 mt-4 sm:mt-8 relative z-20">
-        <div class="space-y-6 max-w-5xl mx-auto">
+    <main class="w-full  mx-auto px-4 sm:px-6 py-8 sm:py-12 mt-4 sm:mt-8 relative z-20">
+        <div class="space-y-6 max-w-6xl mx-auto">
             <!-- Result Section -->
             <div id="resultSection" class="hidden space-y-4">
                 <div class="bg-white rounded-xl p-4 sm:p-6 shadow-xl border">
@@ -168,8 +168,8 @@
                             <p class="text-xs text-gray-600 mt-0.5">Diagram pohon menunjukkan bagaimana kalimat diurai secara hierarki</p>
                         </div>
                     </div>
-                    <div class="bg-gradient-to-br from-purple-50 to-blue-50 rounded-lg p-4 sm:p-6 border border-purple-200 overflow-x-auto">
-                        <div id="treeVisualization"></div>
+                    <div class="bg-gradient-to-br from-purple-50 to-blue-50 rounded-lg p-4 sm:p-6 border border-purple-200 overflow-x-auto overflow-y-hidden">
+                        <div id="treeVisualization" class="min-w-max"></div>
                     </div>
                     
                     <!-- Legend -->

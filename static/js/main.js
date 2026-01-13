@@ -114,27 +114,24 @@ function renderTree(node) {
     
     const dimensions = calculateTreeDimensions(node);
     const isMobile = window.innerWidth < 640;
-    const isTablet = window.innerWidth >= 640 && window.innerWidth < 1024;
+      const isTablet = window.innerWidth >= 640 && window.innerWidth < 1024;
     
-    let svgWidth;
-    if (isMobile) {
-        svgWidth = Math.max(dimensions.width * 1.2, window.innerWidth - 32);
-    } else if (isTablet) {
-        svgWidth = Math.max(dimensions.width * 1.3, 700);
-    } else {
-        svgWidth = Math.max(dimensions.width * 1.5, 800);
-    }
-    
+    // Gunakan fixed width untuk semua ukuran layar agar bisa scroll
+    const svgWidth = Math.max(dimensions.width * 1.2, 800);
     const svgHeight = dimensions.height + (isMobile ? 80 : 100);
     
+    // Padding yang konsisten
+    const padding = 20;
+    
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('width', svgWidth);
+    // Set fixed width untuk enable scrolling di semua ukuran
+    svg.setAttribute('width', svgWidth + padding * 2);
     svg.setAttribute('height', svgHeight);
     svg.setAttribute('class', 'mx-auto');
-    svg.setAttribute('viewBox', `0 0 ${svgWidth} ${svgHeight}`);
-    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    svg.setAttribute('viewBox', `0 0 ${svgWidth + padding * 2} ${svgHeight}`);
+    svg.setAttribute('preserveAspectRatio', 'xMidYMin meet');
     
-    renderTreeNode(node, 0, 20, svgWidth, svg, 0);
+    renderTreeNode(node, padding, 20, svgWidth, svg, 0);
     
     return svg.outerHTML;
 }
@@ -199,7 +196,7 @@ async function analyzeSentence() {
             }
             
             resultTitle.className = 'font-bold text-green-900 mb-1 text-sm sm:text-base';
-            resultTitle.textContent = 'Kalimat Valid ✓';
+            resultTitle.textContent = 'Kalimat Valid';
             resultMessage.className = 'text-xs sm:text-sm text-green-700';
             resultMessage.textContent = `Berhasil mem-parse ${data.tokens.length} token menggunakan ${currentTab.toUpperCase()}`;
             resultStructure.className = 'text-xs text-green-600 mt-1';
